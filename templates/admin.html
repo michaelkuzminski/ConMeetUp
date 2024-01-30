@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Admin</h1>
+    <h2>Veranstaltungen</h2>
+    <table>
+        <tr>
+            <td>Veranstaltung</td>
+            <td>
+                <select id="event">
+                        <option value="-1">Neue Veranstaltung</option>
+                    {% for event in events %}
+                        <option value="{{ event.id }}">{{ event.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>        
+        <tr>
+            <td>Aktive Veranstaltung</td>
+            <td>
+                <select id="activeEvent">
+                    {% for event in orderedEvents %}
+                        <option value="{{ event.id }}">{{ event.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="eventNameEntry"></entry>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>                
+                <button id="eventSaveButton" class="delete">Veranstaltung speichern</button>
+            </td>
+        </tr>  
+        <tr hidden id="eventDeleteRow">
+            <td></td>
+            <td>
+                <button id="eventDeleteButton">Veranstaltung löschen</button>
+            </td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Karten</td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Karten</td>
+            <td>
+                <select id="map">
+                </select>
+            </td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Bild</td>
+            <td>
+                <img id="mapImage">
+            </td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Name</td>
+            <td>
+                <input id="mapNameEntry"></entry>
+            </td>
+        </tr>
+        <tr hidden class="hideable">
+            <td></td>
+            <td>
+                <input type="file" id="mapFileEntry" accept="image/*">
+            </td>
+        </tr> 
+        <tr hidden class="hideable">
+            <td></td>
+            <td>                
+                <button id="mapSaveButton">Karte speichern</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button hidden id="mapDeleteButton">Karte löschen</button>
+            </td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Räumlichkeiten</td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Räumlichkeiten</td>
+            <td>
+                <select id="location">
+                </select>
+            </td>
+        </tr>
+        <tr hidden class="hideable">
+            <td>Name</td>
+            <td>
+                <input id="locationNameEntry"></entry>
+            </td>
+        </tr> 
+        <tr hidden class="hideable">
+            <td></td>
+            <td>                
+                <button id="locationSaveButton">Räumlichkeit speichern</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button hidden id="locationDeleteButton">Räumlichkeit löschen</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Benutzer</td>
+        </tr>        
+        <tr>
+            <td>Benutzer</td>
+            <td>
+                <select id="user">
+                        <option value="-1">Neuer Benutzer</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}" data-username="{{ user.user_name }}" data-events="{{ user.alias.events }}">{{ user.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Login</td>
+            <td>
+                <input id="userLoginEntry"></entry>
+            </td>
+        </tr>
+        <tr>
+            <td>Anzeigename</td>
+            <td>
+                <input id="userNameEntry"></entry>
+            </td>
+        </tr>
+        <tr>
+            <td>Passwort</td>
+            <td>
+                <input type="password" id="userPasswordEntry"></entry>
+            </td>
+        </tr>
+        <tr>
+            <td>Veranstaltungen</td>
+            <td>
+                <select id="events" multiple>
+                    {% for event in events %}
+                        <option value="{{ event.id }}">{{ event.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button id="userSaveButton">Benutzer speichern</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button hidden id="userDeleteButton">Benutzer löschen</button>
+            </td>
+        </tr>   
+    <script src="../static/js/admin.js"></script>
+{% endblock %}

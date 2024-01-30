@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td>Kartenauswahl</td>
+            <td>
+                <select id="map">
+                    {% for map in maps %}
+                        <option value="{{ map.id }}" data-file="{{ map.content }}">{{ map.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+    </table>
+    <label>Karte</label>
+    <br>
+    <img id="mapImage" src="{{ map }}">
+    </tr>
+    <label>Sichtigung Details</label>
+    </tr>
+    <table>
+        <tr>
+            <td>Wen?</td>
+            <td>
+                <select id="sightedUser">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>                
+        <tr>
+            <td>Wo?</td>
+            <td>
+                <select id="sightingLocation">
+                    {% for location in locations %}
+                        <option value="{{ location.id }}">{{ location.display_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>                
+        <tr>
+            <td>Wann?</td>
+            <td>
+                <input type="time" id="sightingTime">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="sightingButton">Sichtigung melden</button>
+            </td>
+        </tr>
+    </table>
+    <tr>
+        <td>Liste Sichtigungen</td>
+    </tr>
+    <table id="sightings_table">
+        <tbody id="users_sightings">
+            <tr>
+                <td>Wer</td>
+                <td>Wo</td>
+                <td>Wann</td>
+            </tr>
+            {% for user_sighting in users_sightings %}
+                <tr>
+                    <td>{{ user_sighting.user.display_name }}</td>
+                    <td>{{ user_sighting.location.display_name }}</td>
+                    <td>{{ user_sighting.sighting_time }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="../static/js/sightings.js"></script>
+{% endblock %}

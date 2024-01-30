@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="chat-container">
+    <div id="chat-header">
+        <h2>ConChat</h2>
+    </div>
+    <div id="chat-box">
+        {% for chat_message in chat_messages %}
+            <div class="message">
+                <p class="message-user">{{ chat_message.user.display_name }}:</p>
+                <p class="message-text">{{ chat_message.message }}</p>
+                <p class="message-time">{{ chat_message.sent_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="chat-input">
+        <form id="message-form">
+            <input type="text" id="message-input" placeholder="Sende eine Nachricht...">
+            <button id="sendButton">Senden</button>
+        </form>
+    </div>
+</div>
+
+<script src="../static/js/chat.js"></script>
+{% endblock %}
