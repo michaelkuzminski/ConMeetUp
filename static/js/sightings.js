@@ -51,3 +51,28 @@ document.getElementById('map').addEventListener('change', function() {
 
     mapImage.src = "data:image/png;base64," + selectedOptions.dataset.file;
 });
+
+function fetchNewSightings() {
+    fetch('/get_new_sightings')
+    .then(response => response.json())
+    .then(data => {
+        data.sightings.forEach(function(sighting) {
+            var usersSightingsTable = document.getElementById('users_sightings');
+    
+            var row = usersSightingsTable.insertRow();
+    
+            var userCell = row.insertCell();
+            var locationCell = row.insertCell();
+            var timeCell = row.insertCell();
+    
+            userCell.textContent = sighting.user;
+            locationCell.textContent = sighting.location;
+            timeCell.textContent = sighting.sighting_time;
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+setInterval(fetchNewSightings, 60000);

@@ -41,3 +41,37 @@ document.getElementById('sendButton').addEventListener('click', function() {
     });
     event.preventDefault()
 });
+
+function fetchNewChats() {
+    fetch('/get_new_chats')
+    .then(response => response.json())
+    .then(data => {
+        data.chat_messages.forEach(function(message) {
+            var chatTable = document.getElementById('chat-box');
+                
+            var messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+    
+            var p1 = document.createElement('p');
+            p1.classList.add('message-user');
+            p1.textContent = message.user;
+            var p2 = document.createElement('p');
+            p2.textContent = message.message;
+            p2.classList.add('message-text');
+            var p3 = document.createElement('p');
+            p3.textContent = message.sent_at;
+            p3.classList.add('message-time');
+    
+            messageDiv.appendChild(p1);
+            messageDiv.appendChild(p2);
+            messageDiv.appendChild(p3);
+    
+            chatTable.appendChild(messageDiv);
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+setInterval(fetchNewChats, 60000);

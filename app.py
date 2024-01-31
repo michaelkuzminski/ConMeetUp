@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, redirect, render_template, request, jsonify, session, redirect
 from models import *
-from datetime import datetime
+from datetime import datetime, timedelta
 from peewee import fn
 
 def get_db_connection():
@@ -119,6 +119,16 @@ def report_sighting():
     users_sightings = [sighting.to_dict() for sighting in users_sightings]
 
     return jsonify({'status': 'success', 'sightings': users_sightings})
+
+@app.route('/get_new_sightings', methods=['GET'])
+def get_new_sightings():
+    current_time = datetime.now()
+    one_minute_ago = current_time - timedelta(minutes=1)
+
+    users_sightings = UserSightings.select(Users.display_name, Locations.display_name, UserSightings.sighting_time).join(Users).switch(UserSightings).join(Locations).where(UserSightings.sighting_time.between(one_minute_ago, current_time)).order_by(UserSightings.sighting_time.desc())
+    users_sightings = [sighting.to_dict() for sighting in users_sightings]
+
+    return jsonify({'status': 'success', 'users_sightings': users_sightings})
 
 @app.route('/admin')
 def admin():
@@ -305,6 +315,15 @@ def send_chat():
     chat_message.save()
 
     return jsonify({'status': 'success', 'user': user.display_name})
+
+@app.route('/get_new_chats', methods=['GET'])
+def get_new_chats():
+    current_time = datetime.now()
+    one_minute_ago = current_time - timedelta(minutes=1)
+    chat_messages = ChatMessages.select().join(Users).where(ChatMessages.sent_at.between(one_minute_ago, current_time)).order_by(ChatMessages.sent_at.asc())
+    chat_messages = [message.to_dict() for message in chat_messages]
+
+    return jsonify({'status': 'success', 'chat_messages': chat_messages})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

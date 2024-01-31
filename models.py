@@ -81,10 +81,10 @@ class ChatMessages(BaseModel):
     user = ForeignKeyField(Users)
     message = CharField(null = False)
     sent_at = DateTimeField(null=False)
-        
+
     def to_dict(self):
         return {
             'user': self.user.display_name,
-            'sent_at': str(self.sent_at)[11:],
+            'sent_at': str(self.sent_at)[11:19],
             'message': self.message,
         }
